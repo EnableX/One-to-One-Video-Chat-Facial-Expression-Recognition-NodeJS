@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="mphtools-feature"
+      content="compatibilityUI, cameraPrivacyPopup, compatibilityAutoCheck"
+    />
+    <title>Morphcast POC</title>
+    <link rel="stylesheet" href="css/bootstrap.css" />
+    <link rel="stylesheet" href="css/confo.css" />
+    <link rel="shortcut icon" type="image/png" href="/img/enablex.png" />
+    <link rel="stylesheet" href="css/font-awesome.min.css" />
+    <script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="js/tether.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.js"></script>
+    <script type="text/javascript" src="js/EnxRtc.js"></script>
+    <script type="text/javascript" src="js/util.js"></script>
+    <script type="text/javascript" src="js/confo.js"></script>
+    <script src="./js/EnxFaceX.js"></script>
+    <link rel="stylesheet" href="css/jquery.toast.css" />
+  </head>
+  <body>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-4 col-sm-4 col-xs-12">
+          <div
+            id="face_tracking_container"
+            style="background: #ffff; margin-top: 20px;"
+          >
+            <div id="face_attention"></div>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-4 col-xs-12">
+          <div class="video_container_div">
+            <div class="row">
+              <div id="local_video_div" style="left: 6% !important;"></div>
+              <div id="multi_video_container_div"></div>
+            </div>
+          </div>
+          <div class="row" id="controls-div" style="display: none;">
+            <div
+              class="controls"
+              id="controls"
+              style="
+                position: absolute;
+                bottom: 0;
+                left: 21%;
+                text-align: center;
+                z-index: 10000;
+              "
+            >
+              <img
+                src="../img/mike.png"
+                style="max-width: 50px; margin-right: 20px; cursor: pointer;"
+                class="cus_img_icon icon-confo-mute"
+                onclick="audioMute()"
+                title="mute audio"
+              />
+              <img
+                src="../img/video.png"
+                style="max-width: 50px; margin-right: 20px; cursor: pointer;"
+                class="cus_img_icon icon-confo-video-mute"
+                title="mute video"
+                onclick="videoMute()"
+              />
+              <img
+                src="../img/end-call.png"
+                style="max-width: 60px; margin-right: 20px; cursor: pointer;"
+                class="cus_img_icon end_call"
+                title="End_call"
+                onclick="endCall()"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4 col-sm-4 col-xs-12">
+          <div id="faces_snapshot" style="background: #ffff; margin-top: 20px;">
+            <h4>Face Images</h4>
+            <div id="face_image" style="margin-top: 10px;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <canvas id="canvas" width="300" height="300"></canvas>
+    <script type="text/javascript" src="js/jquery.toast.js"></script>
+  </body>
+</html>
