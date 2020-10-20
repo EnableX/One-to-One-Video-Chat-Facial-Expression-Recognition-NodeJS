@@ -6,7 +6,7 @@
       name="mphtools-feature"
       content="compatibilityUI, cameraPrivacyPopup, compatibilityAutoCheck"
     />
-    <title>Morphcast POC</title>
+    <title>FaceX Demo</title>
     <link rel="stylesheet" href="css/bootstrap.css" />
     <link rel="stylesheet" href="css/confo.css" />
     <link rel="shortcut icon" type="image/png" href="/img/enablex.png" />
@@ -16,8 +16,10 @@
     <script type="text/javascript" src="js/bootstrap.js"></script>
     <script type="text/javascript" src="js/EnxRtc.js"></script>
     <script type="text/javascript" src="js/util.js"></script>
+    <!-- <script type="text/javascript" src="js/face-api.min.js"></script> -->
+    <script type="text/javascript" src="js/EnxFaceCompare.js"></script>
     <script type="text/javascript" src="js/confo.js"></script>
-    <script src="./js/EnxFaceX.js"></script>
+    <script src="./js/EnxFaceAI.js"></script>
     <link rel="stylesheet" href="css/jquery.toast.css" />
   </head>
   <body>
@@ -26,19 +28,59 @@
         <div class="col-md-4 col-sm-4 col-xs-12">
           <div
             id="face_tracking_container"
-            style="background: #ffff; margin-top: 20px;"
+            style="background: #ffff; margin-top: 20px"
           >
+            <!-- <select id="cam" style="width: 95%;"> </select> -->
             <div id="face_attention"></div>
+            <button type="button" onclick="checkLiveness()">
+              Check liveliness
+            </button>
+            <button type="button" id="Pic_Taker" onclick="checkSimilarity()">
+              Check Similarity
+            </button>
+            <span id="reset_liveness"
+              ><button type="button" onclick="resetLiveness()">
+                Reset
+              </button></span
+            >
+            <div id="face_similarity_div">
+              <div id="compare_div">
+                <label class="radio-inline">
+                  <input
+                    type="radio"
+                    name="optradio"
+                    onclick="changeSelectedImage(0)"
+                    checked
+                  />Select Image 1
+                </label>
+                <label class="radio-inline">
+                  <input
+                    type="radio"
+                    name="optradio"
+                    onclick="changeSelectedImage(1)"
+                  />Select Image 2
+                </label>
+                <div>
+                  <span id="selected_image0"></span>
+                  <span id="selected_image1"></span>
+                </div>
+                <div id="compare_image">
+                  <button type="button" id="compare_face_click">
+                    Compare Face
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
         <div class="col-md-4 col-sm-4 col-xs-12">
           <div class="video_container_div">
             <div class="row">
-              <div id="local_video_div" style="left: 6% !important;"></div>
+              <div id="local_video_div" style="left: 6% !important"></div>
               <div id="multi_video_container_div"></div>
             </div>
           </div>
-          <div class="row" id="controls-div" style="display: none;">
+          <div class="row" id="controls-div" style="display: none">
             <div
               class="controls"
               id="controls"
@@ -52,21 +94,21 @@
             >
               <img
                 src="../img/mike.png"
-                style="max-width: 50px; margin-right: 20px; cursor: pointer;"
+                style="max-width: 50px; margin-right: 20px; cursor: pointer"
                 class="cus_img_icon icon-confo-mute"
                 onclick="audioMute()"
                 title="mute audio"
               />
               <img
                 src="../img/video.png"
-                style="max-width: 50px; margin-right: 20px; cursor: pointer;"
+                style="max-width: 50px; margin-right: 20px; cursor: pointer"
                 class="cus_img_icon icon-confo-video-mute"
                 title="mute video"
                 onclick="videoMute()"
               />
               <img
                 src="../img/end-call.png"
-                style="max-width: 60px; margin-right: 20px; cursor: pointer;"
+                style="max-width: 60px; margin-right: 20px; cursor: pointer"
                 class="cus_img_icon end_call"
                 title="End_call"
                 onclick="endCall()"
@@ -76,13 +118,16 @@
         </div>
 
         <div class="col-md-4 col-sm-4 col-xs-12">
-          <div id="faces_snapshot" style="background: #ffff; margin-top: 20px;">
+          <div id="faces_snapshot" style="background: #ffff; margin-top: 20px">
             <h4>Face Images</h4>
-            <div id="face_image" style="margin-top: 10px;"></div>
+            <div id="face_image" style="margin-top: 10px"></div>
           </div>
         </div>
       </div>
     </div>
+    <!-- <button type="button" onclick="stopFaceTracking()">Stop Tracking</button>
+    <button type="button" onclick="startFaceEmo()">Start Emotion</button>
+    <button type="button" onclick="stopFaceEmo()">Start Emotion</button> -->
     <canvas id="canvas" width="300" height="300"></canvas>
     <script type="text/javascript" src="js/jquery.toast.js"></script>
   </body>

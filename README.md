@@ -1,10 +1,10 @@
-# 1-to-1 RTC/FaceX: Sample App NodeJS, EnableX Web Toolkit, FaceX - Facial Expression Recognition
+# 1-to-1 RTC/FaceAI: Sample App NodeJS, EnableX Web Toolkit, FaceAI - Facial Expression Recognition
 
-The Sample Web App demonstrates the use of APIs for EnableX platform to carry out 1-to-1 RTC (Real Time Communication) with FaceX, Facial Expression Recognition. The main motivation behind this application is to demonstrate usage of APIs and allow developers to ramp up on app by hosting on their own devices instead of directly using servers.
+The Sample Web App demonstrates the use of APIs for EnableX platform to carry out 1-to-1 RTC (Real Time Communication) with FaceAI, Facial Expression Recognition. The main motivation behind this application is to demonstrate usage of APIs and allow developers to ramp up on app by hosting on their own devices instead of directly using servers.
 
 RTC Applications hosted on EnableX platform run natively on supported set of web browsers without any additional plugin downloads.
 
-This basic 1-to-1 Video Chat Application is developed using HTML, CSS, Bootstrap v4.0.0-alpha.6, JAVA Script, jQuery, Node V8.9.1, EnxRtc (The EnableX Web Toolkit), FaceX (Facial Expression Recognition).
+This basic 1-to-1 Video Chat Application is developed using HTML, CSS, Bootstrap v4.0.0-alpha.6, JAVA Script, jQuery, Node V8.9.1, EnxRtc (The EnableX Web Toolkit), FaceAI (Facial Expression Recognition).
 
 > The details of the supported set of web browsers can be found here:
 > https://developer.enablex.io/video/browser-compatibility-of-enablex-video/
@@ -58,7 +58,7 @@ Before you can run this application by hosting it locally you need to customize 
 
 ```javascript
 vcxconfig.SERViCE = {
-  name: "EnableX - FaceX", // Name of the Application [Change optional]
+  name: "EnableX - FaceAI", // Name of the Application [Change optional]
   version: "1.0.0", // Version [Change optional]
   path: "/v1", // Route [Default /v1]
   domain: "yourdomain.com", // FQDN of  your hosting enviornment

@@ -8,8 +8,12 @@
 // Reformat, Indentation, Inline Comments
 //
 /////////////////////////////////////////////////////
-let faceX = null;
-let facexRunning = false;
+let faceAI = null;
+let faceComp = null;
+let isCheckSimilarity = false;
+let selectedImage = [];
+let selectedImgIndex = 0;
+let faceAIRunning = false;
 var ATList = [];
 const faceConfig = {
   maxInputFrameSize: 160,
@@ -27,6 +31,7 @@ const faceTrackingData = {
   pose: null,
   face: null,
   liveness: "",
+  similarity: "",
 };
 let imgURL = null;
 let isCheckLiveness = false;
@@ -90,10 +95,26 @@ var options = {
     },
   },
 };
+/* Face config for face detection*/
+function config() {
+  return `{  
+"runtime": {  
+  "accept_threshold": 0.89,  
+  "associate_threshold": 0.5,  
+  "split_threshold": 0.015,  
+  
+  }   
+}`;
+}
+var binarystring; // Global intentionally
+var customizedConfig = {
+  customConfig: config(),
+};
 window.onload = function () {
   $("#faces_snapshot").hide();
-  faceX = new EnxFaceX();
-  console.log(faceX, "ai.......");
+  $("#compare_div").hide();
+  faceAI = new EnxFaceAI();
+  faceComp = new EnxFaceCompare();
 
   // URL Parsing to fetch Room Information to join
   var parseURLParams = function (url) {
@@ -214,7 +235,7 @@ window.onload = function () {
           room.subscribe(response.streams[i]);
         }
         //for face tracking
-        faceX.init(response, localStream, (res) => {
+        faceAI.init(response, localStream, (res) => {
           console.log(res, "init result");
           if (res.result === 0) {
             startFaceTrack();
@@ -266,15 +287,6 @@ window.onload = function () {
               .classList.add("border-b-active");
           }
           console.log("Active Talker List :- " + JSON.stringify(event));
-          // if(!facexRunning){
-          //   faceX.init(response, room.remoteStreams.get(ATList[0].streamId), (res) => {
-          //     console.log(res, "init result");
-          //     if (res.result === 0) {
-          //       startFaceTrack();
-          //       facexRunning = true;
-          //     }
-          //   });
-          // }
         });
 
         // Stream has been subscribed successfully
@@ -293,7 +305,7 @@ window.onload = function () {
 
         room.addEventListener("user-disconnected", function (event) {
           console.log(e);
-          facexRunning = false;
+          faceAIRunning = false;
         });
 
         // Listening to Incoming Data
@@ -382,11 +394,15 @@ function checkLiveness() {
   faceTrackingData.liveness = "";
 }
 
-function checkSimilarity() {}
-
 function resetLiveness() {
   isCheckLiveness = false;
   faceTrackingData.liveness = "";
+  $("#compare_div").hide();
+  faceTrackingData.similarity = "";
+  ("selected_image0");
+  document.getElementById("selected_image0").innerHTML = "";
+  document.getElementById("selected_image1").innerHTML = "";
+  selectedImage = [];
 }
 function appendFaceDetail() {
   isAppendFaceDetail = true;
@@ -398,9 +414,7 @@ function appendFaceDetail() {
       <h4>Gender: ${faceTrackingData.gender}</h4>
       <h4>Pose: ${faceTrackingData.pose}</h4>
       <h4>Liveliness: ${faceTrackingData.liveness}</h4>
-       <button type="button" onclick="checkLiveness()">Check liveliness</button>
-       <button type="button" onclick="checkSimilarity()">Check Similarity</button>
-       <span id="reset_liveness"><button type="button" onclick="resetLiveness()">Reset</button></span>
+      <h4>Similarity: ${faceTrackingData.similarity}</h4>
       `;
   }, 1000 / 3);
   $("#faces_snapshot").show();
@@ -408,19 +422,31 @@ function appendFaceDetail() {
     if (facesURL.length) {
       $("#face_image").empty();
       for (var i = 0; i < facesURL.length; i++) {
-        var img = document.createElement("img");
-        img.width = facesURL[i].width;
-        img.height = facesURL[i].height;
-        img.style.backgroundImage = "url(" + facesURL[i].url + ")";
-        img.style.backgroundRepeat = "no-repeat";
-        img.style.marginLeft = "5px";
-        img.style.marginTop = "5px";
-        img.style.border = "2px solid black";
-        img.style.borderRadius = "10px";
-        $("#face_image").append(img);
+        let image = new Image();
+        image.id = "face_" + i;
+        image.src = facesURL[i].url;
+        image.onclick = function () {
+          return selectImage(image);
+        };
+        image.style.backgroundRepeat = "no-repeat";
+        image.style.marginLeft = "5px";
+        image.style.marginTop = "5px";
+        image.style.border = "2px solid black";
+        image.style.borderRadius = "10px";
+        image.style.cursor = "pointer";
+        $("#face_image").append(image);
       }
     }
   }, 2000);
+}
+function selectImage(img) {
+  selectedImage[selectedImgIndex] = img;
+  const container = document.createElement("span");
+  document.getElementById(`selected_image${selectedImgIndex}`).innerHTML = "";
+  document
+    .getElementById(`selected_image${selectedImgIndex}`)
+    .append(container);
+  container.append(selectedImage[selectedImgIndex]);
 }
 
 function imagedata_to_image(imagedata) {
@@ -435,10 +461,10 @@ function imagedata_to_image(imagedata) {
 }
 
 function startFaceTrack() {
-  faceX.startFaceDetector({}, (res) => {
+  faceAI.startFaceDetector({}, (res) => {
     if (res.result === 0) {
-      window.addEventListener("facex-detector", (evt) => {
-        //// console.log(evt.detail, "facex detector event...........");
+      window.addEventListener("face-detector", (evt) => {
+        // console.log(evt.detail, "face detector event...........");
         const faces = evt.detail.faces;
         faceTrackingData.face = faces.length;
         if (facesURL.length === 5) {
@@ -462,10 +488,10 @@ function startFaceTrack() {
       });
     }
   });
-  faceX.startFacePose({}, (res) => {
+  faceAI.startFacePose({}, (res) => {
     if (res.result === 0) {
-      window.addEventListener("facex-pose", (evt) => {
-        //console.log(evt.detail, "facex pose event...........");
+      window.addEventListener("face-pose", (evt) => {
+        //console.log(evt.detail, "face pose event...........");
         const pitch = evt.detail.output.pose.pitch.toFixed(2);
         const yaw = evt.detail.output.pose.yaw.toFixed(2);
         //const roll = evt.detail.output.pose.yaw.toFixed(2);
@@ -485,48 +511,48 @@ function startFaceTrack() {
       });
     }
   });
-  faceX.startFaceAge({}, (res) => {
+  faceAI.startFaceAge({}, (res) => {
     if (res.result === 0) {
-      window.addEventListener("facex-age", (evt) => {
-        //console.log(evt.detail, "facex age event...........");
+      window.addEventListener("face-age", (evt) => {
+        //console.log(evt.detail, "face age event...........");
         const age = Math.ceil(evt.detail.output.numericAge / 5) * 5;
         faceTrackingData.age = age - 5 + "-" + age;
       });
     }
   });
-  faceX.startFaceEmotion({}, (res) => {
+  faceAI.startFaceEmotion({}, (res) => {
     if (res.result === 0) {
-      window.addEventListener("facex-emotion", (evt) => {
-        //console.log(evt.detail, "facex emotion event...........");
+      window.addEventListener("face-emotion", (evt) => {
+        //console.log(evt.detail, "face emotion event...........");
       });
     }
   });
-  faceX.startFaceGender({}, (res) => {
+  faceAI.startFaceGender({}, (res) => {
     if (res.result === 0) {
-      window.addEventListener("facex-gender", (evt) => {
-        //console.log(evt.detail, "facex gender event...........");
+      window.addEventListener("face-gender", (evt) => {
+        //console.log(evt.detail, "face gender event...........");
         faceTrackingData.gender = evt.detail.output.mostConfident;
       });
     }
   });
-  faceX.startFaceFeatures({}, (res) => {
+  faceAI.startFaceFeatures({}, (res) => {
     if (res.result === 0) {
-      window.addEventListener("facex-features", (evt) => {
-        //console.log(evt.detail, "facex features event...........");
+      window.addEventListener("face-features", (evt) => {
+        //console.log(evt.detail, "face features event...........");
       });
     }
   });
-  faceX.startFaceArousalValence({}, (res) => {
+  faceAI.startFaceArousalValence({}, (res) => {
     if (res.result === 0) {
-      window.addEventListener("facex-arousal-valence", (evt) => {
-        //console.log(evt.detail, "facex arousal-valence event...........");
+      window.addEventListener("face-arousal-valence", (evt) => {
+        //console.log(evt.detail, "face arousal-valence event...........");
       });
     }
   });
-  faceX.startFaceAttention({}, (res) => {
+  faceAI.startFaceAttention({}, (res) => {
     if (res.result === 0) {
-      window.addEventListener("facex-attention", (evt) => {
-        //console.log(evt.detail, "facex attention event...........");
+      window.addEventListener("face-attention", (evt) => {
+        //console.log(evt.detail, "face attention event...........");
         const attention = evt.detail.output.attention.toFixed(2);
         if (attention < 0.2) faceTrackingData.attention = "Very Low";
         else if (attention > 0.2 && attention < 0.4)
@@ -539,11 +565,65 @@ function startFaceTrack() {
   });
 }
 
-// setTimeout(function () {
-//   faceX.stopFacePose((evt) => {
-////     console.log(evt, "stop face pose evt..............");
-//   });
-//   faceX.stopFaceAge((evt) => {
-////     console.log(evt, "stop face age evt..............");
-//   });
-// }, 20000);
+$("#Pic_Taker").click(function () {
+  $(this).data("clicked", true);
+});
+
+function checkSimilarity() {
+  $("#compare_div").show();
+  if (isCheckSimilarity) {
+    return;
+  }
+  isCheckSimilarity = true;
+  document
+    .getElementById("compare_face_click")
+    .addEventListener("click", async function () {
+      if (selectedImage.length !== 2) {
+        alert("select any 2 image for compare");
+        return;
+      }
+      faceTrackingData.similarity = "...loading";
+      const compareData = {
+        imgURL: selectedImage[0],
+        compareImgURL: selectedImage[1],
+        modelURL: "/models",
+      };
+      faceComp.checkSimilarity(compareData, (res) => {
+        if (res.result === 0) {
+          if (res.data <= 0.5) {
+            faceTrackingData.similarity = "Face Matched";
+          } else {
+            faceTrackingData.similarity = "Face Not Matched";
+          }
+          alert(res.data);
+        }
+      });
+    });
+}
+
+function changeSelectedImage(index) {
+  selectedImgIndex = index;
+}
+function stopFaceTracking() {
+  faceAI.stopFaceDetector((evt) => {
+    debugger;
+    console.log(evt, "stop face pose evt..............");
+  });
+}
+
+function startFaceEmo() {
+  faceAI.startFaceEmotion({}, (res) => {
+    if (res.result === 0) {
+      window.addEventListener("face-emotion", (evt) => {
+        console.log(evt.detail, "face emotion event...........");
+      });
+    }
+  });
+}
+
+function stopFaceEmo() {
+  faceAI.stopFaceEmotion((evt) => {
+    debugger;
+    console.log(evt, "stop face emotion evt..............");
+  });
+}
