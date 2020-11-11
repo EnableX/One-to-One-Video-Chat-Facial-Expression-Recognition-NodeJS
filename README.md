@@ -41,14 +41,11 @@ However you may use self-signed Certificate to run this application locally. The
 - https://www.akadia.com/services/ssh_test_certificate.html
 
 The following below can also be used to create a self-signed certificate.
-
-`cd One-to-One-Video-Chat-Facial-Expression-Recognition-NodeJS`
-
-`mkdir certs`
-
-`sudo openssl req -x509 -newkey rsa:4096 -keyout ./certs/localhost.key -out ./certs/localhost.crt -days 10000 -nodes`
-
-`sudo chmod 755 ./certs/localhost.*`
+```javascript
+cd One-to-One-Video-Chat-Facial-Expression-Recognition-NodeJS
+mkdir certs
+sudo openssl req -x509 -newkey rsa:4096 -keyout ./certs/localhost.key -out ./certs/localhost.crt -days 10000 -nodes
+sudo chmod 755 ./certs/localhost.*
 
 #### 3.1.3 Configure
 
@@ -61,7 +58,7 @@ vcxconfig.SERViCE = {
   name: "EnableX - FaceAI", // Name of the Application [Change optional]
   version: "1.0.0", // Version [Change optional]
   path: "/v1", // Route [Default /v1]
-  domain: "yourdomain.com", // FQDN of  your hosting enviornment
+  domain: "localhost", // FQDN of  your hosting enviornment
   port: "4443", // FQDN of  your hosting port. You need sudo permission if you want to use standard 443
   listen_ssl: true, // SSL on/off key  [ Set always to "true" ]
 };
@@ -69,7 +66,7 @@ vcxconfig.SERViCE = {
 vcxconfig.Certificate = {
   ssl_key: "../certs/localhost.key", // Path to .key file or registered key
   ssl_cert: "../certs/localhost.crt", // Path to .crt file or registered crt
-  // sslCaCerts :  ["../cert/yourdomain.ca-bundle"]    // Use the certificate CA[chain] [self signed or registered]
+  // sslCaCerts :  ["../cert/localhost.ca-bundle"]    // Use the certificate CA[chain] [self signed or registered]
 };
 
 vcxconfig.SERVER_API_SERVER = {
@@ -88,10 +85,10 @@ Run `npm install --save` to build the project and the build artifacts will be st
 #### 3.2.1 Run Server
 
 Run `node server.js` inside `server` folder to start your server.
-
-`cd server`
-
-`node server.js`
+```javascript
+  cd server
+  node server.js
+```
 Server started. Listening on Port 4443
 
 #### 3.2.2 Test Video Call
@@ -112,13 +109,12 @@ meeting rooms. API Access is given to each Application through the assigned App 
 are to be used as Username and Password respectively to pass as HTTP Basic Authentication header to access Server API.
 
 For this application, the following Server API calls are used:
-
-- https://developer.vcloudx.com/video-api/server-api/rooms-route/#get-rooms - To get list of Rooms
-- https://developer.vcloudx.com/video-api/server-api/rooms-route/#get-room-info - To get information of the given Room
-- https://developer.vcloudx.com/video-api/server-api/rooms-route/#create-token - To create Token for the given Room
+* https://developer.enablex.io/video-api/server-api/rooms-route/#create-room - To create room to carry out a video session
+* https://developer.enablex.io/video-api/server-api/rooms-route/#create-token - To create Token for the given Room to join a session
 
 To know more about Server API, go to:
-https://developer.vcloudx.com/video-api/server-api/
+https://developer.enablex.io/video-api/server-api/
+
 
 ## 5 Client API
 
