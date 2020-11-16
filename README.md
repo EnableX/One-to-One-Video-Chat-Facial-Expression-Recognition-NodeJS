@@ -45,6 +45,7 @@ The following below can also be used to create a self-signed certificate.
 
 ```javascript
   cd One-to-One-Video-Chat-Facial-Expression-Recognition-NodeJS
+  cd server
   mkdir certs
   sudo openssl req -x509 -newkey rsa:4096 -keyout ./certs/localhost.key -out ./certs/localhost.crt -days 10000 -nodes
   sudo chmod 755 ./certs/localhost.*
@@ -55,7 +56,7 @@ The following below can also be used to create a self-signed certificate.
 Before you can run this application, configure the service by editing `server/vcxconfig.js` to meet project requirement.
 
 ```javascript
-  vcxconfig.SERViCE = {
+  vcxconfig.SERVICE = {
     name: "EnableX - FaceAI", // Name of the Application [Change optional]
     version: "1.0.0", // Version [Change optional]
     path: "/v1", // Route [Default /v1]
@@ -65,15 +66,15 @@ Before you can run this application, configure the service by editing `server/vc
   };
 
   vcxconfig.Certificate = {
-    ssl_key: "../certs/localhost.key", // Path to .key file or registered key
-    ssl_cert: "../certs/localhost.crt", // Path to .crt file or registered crt
+    ssl_key: "certs/localhost.key", // Path to .key file or registered key
+    ssl_cert: "certs/localhost.crt", // Path to .crt file or registered crt
     // sslCaCerts :  ["../cert/localhost.ca-bundle"]    // Use the certificate CA[chain] [self signed or registered]
   };
 
   vcxconfig.SERVER_API_SERVER = {
     host: "api.enablex.io", // Hosted EnableX Server API Domain Name
   };
-  vcxconfig.pwdFilePath = "/server/files/users.htpasswd";
+  
   vcxconfig.clientPath = "../client"; // UI files location
   vcxconfig.APP_ID = "YOUR_APP_ID"; // Enter Your App ID you received from registered email
   vcxconfig.APP_KEY = "YOUR_APP_KEY"; // Enter Your App Key you have received from registered email
