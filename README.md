@@ -47,37 +47,32 @@ The following below can also be used to create a self-signed certificate.
   cd One-to-One-Video-Chat-Facial-Expression-Recognition-NodeJS
   cd server
   mkdir certs
-  sudo openssl req -x509 -newkey rsa:4096 -keyout ./certs/localhost.key -out ./certs/localhost.crt -days 10000 -nodes
+  sudo openssl req -x509 -newkey rsa:4096 -keyout ./certs/example.key -out ./certs/example.crt -days 10000 -nodes
   sudo chmod 755 ./certs/localhost.*
 ```
 
 #### 3.1.3 Configure
 
-Before you can run this application, configure the service by editing `server/vcxconfig.js` to meet project requirement.
+Before you can run this application, configure the service. Copy the `server/example.env` as `server/.env` and update the values. Or you can set following system environment variables instead:
 
 ```javascript
-  vcxconfig.SERVICE = {
-    name: "EnableX - FaceAI", // Name of the Application [Change optional]
-    version: "1.0.0", // Version [Change optional]
-    path: "/v1", // Route [Default /v1]
-    domain: "localhost", // FQDN of  your hosting enviornment
-    port: "4443", // FQDN of  your hosting port. You need sudo permission if you want to use standard 443
-    listen_ssl: true, // SSL on/off key  [ Set always to "true" ]
-  };
+  SERVICE_PORT - Node port on which your application will run. Default port set is 5000
+  ENABLEX_APP_ID - Your EnableX `App ID` - It's your username for EnableX API and can be found at Dashboard > Projects https://portal.enablex.io/dashboard/
+  ENABLEX_APP_KEY - Your EnableX `App Key` - - It's your password for EnableX API and can be found at Dashboard > Projects https://portal.enablex.io/dashboard/
+```
 
-  vcxconfig.Certificate = {
-    ssl_key: "certs/localhost.key", // Path to .key file or registered key
-    ssl_cert: "certs/localhost.crt", // Path to .crt file or registered crt
-    // sslCaCerts :  ["../cert/localhost.ca-bundle"]    // Use the certificate CA[chain] [self signed or registered]
-  };
+For Mac and Linux, open a terminal window and type the following commands. Note - Replace all the characters after the `=` with values from your EnableX account:
+```javascript
+  export SERVICE_PORT=XXXX
+  export ENABLEX_APP_ID=XXXXXXXXXX
+  export ENABLEX_APP_KEY=XXXXXXXXX
+```
 
-  vcxconfig.SERVER_API_SERVER = {
-    host: "api.enablex.io", // Hosted EnableX Server API Domain Name
-  };
-  
-  vcxconfig.clientPath = "../client"; // UI files location
-  vcxconfig.APP_ID = "YOUR_APP_ID"; // Enter Your App ID you received from registered email
-  vcxconfig.APP_KEY = "YOUR_APP_KEY"; // Enter Your App Key you have received from registered email
+On Windows, open a powershell / command window and type the following commands. Note that there is no `=`, just the key and value separated by a space:
+```javascript
+  setx SERVICE_PORT 'XXXX'
+  setx ENABLEX_APP_ID 'XXXXXXXXX'
+  setx ENABLEX_APP_KEY 'XXXXXXXXX'
 ```
 
 ### 3.2 Build
