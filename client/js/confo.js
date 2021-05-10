@@ -33,6 +33,16 @@ const faceTrackingData = {
   liveness: '',
   similarity: '',
 };
+let faceAIConfig = {
+  faceDetector: {minFaceSizeAt640: 50, maxInputFrameSize: 720, multiFace: true},
+  facePose: {},
+  faceAge: {},
+  faceEmotion: {},
+  faceGender: {smoothness: 0.95, threshold: 0.70},
+  faceFeatures: {smoothness: 0.90},
+  faceArousalValence: {},
+  faceAttention: {},
+}
 const imgURL = null;
 let isCheckLiveness = false;
 const facesURL = [];
@@ -234,7 +244,7 @@ window.onload = function () {
           room.subscribe(response.streams[i]);
         }
         // for face tracking
-        faceAI.init(response, localStream, (res) => {
+        faceAI.init(response, null,faceAIConfig, (res) => {
           console.log(res, 'init result');
           if (res.result === 0) {
             startFaceTrack();
@@ -456,7 +466,7 @@ function imagedata_to_image(imagedata) {
 }
 
 function startFaceTrack() {
-  faceAI.startFaceDetector({}, (res) => {
+  faceAI.startFaceDetector( (res) => {
     if (res.result === 0) {
       window.addEventListener('face-detector', (evt) => {
         // console.log(evt.detail, "face detector event...........");
@@ -483,7 +493,7 @@ function startFaceTrack() {
       });
     }
   });
-  faceAI.startFacePose({}, (res) => {
+  faceAI.startFacePose( (res) => {
     if (res.result === 0) {
       window.addEventListener('face-pose', (evt) => {
         // console.log(evt.detail, "face pose event...........");
@@ -505,7 +515,7 @@ function startFaceTrack() {
       });
     }
   });
-  faceAI.startFaceAge({}, (res) => {
+  faceAI.startFaceAge( (res) => {
     if (res.result === 0) {
       window.addEventListener('face-age', (evt) => {
         // console.log(evt.detail, "face age event...........");
@@ -514,14 +524,14 @@ function startFaceTrack() {
       });
     }
   });
-  faceAI.startFaceEmotion({}, (res) => {
+  faceAI.startFaceEmotion( (res) => {
     if (res.result === 0) {
       window.addEventListener('face-emotion', (evt) => {
         // console.log(evt.detail, "face emotion event...........");
       });
     }
   });
-  faceAI.startFaceGender({}, (res) => {
+  faceAI.startFaceGender( (res) => {
     if (res.result === 0) {
       window.addEventListener('face-gender', (evt) => {
         // console.log(evt.detail, "face gender event...........");
@@ -529,21 +539,21 @@ function startFaceTrack() {
       });
     }
   });
-  faceAI.startFaceFeatures({}, (res) => {
+  faceAI.startFaceFeatures( (res) => {
     if (res.result === 0) {
       window.addEventListener('face-features', (evt) => {
         // console.log(evt.detail, "face features event...........");
       });
     }
   });
-  faceAI.startFaceArousalValence({}, (res) => {
+  faceAI.startFaceArousalValence( (res) => {
     if (res.result === 0) {
       window.addEventListener('face-arousal-valence', (evt) => {
         // console.log(evt.detail, "face arousal-valence event...........");
       });
     }
   });
-  faceAI.startFaceAttention({}, (res) => {
+  faceAI.startFaceAttention( (res) => {
     if (res.result === 0) {
       window.addEventListener('face-attention', (evt) => {
         // console.log(evt.detail, "face attention event...........");
