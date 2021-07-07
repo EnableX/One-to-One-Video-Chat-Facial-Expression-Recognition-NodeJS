@@ -26,9 +26,9 @@ Sign up for a free trial https://portal.enablex.io/cpaas/trial-sign-up/ or try o
 
 #### 3.1.1 App Id and App Key
 
-- Register with EnableX [https://portal.enablex.io/cpaas/trial-sign-up/]
-- Create your Application
-- Get your App ID and App Key
+* Create a free account on EnableX [https://portal.enablex.io/cpaas/trial-sign-up/]
+* Create your Project
+* Get the App ID and App Key generated against the Project
 - Clone this repository `git clone https://github.com/EnableX/One-to-One-Video-Chat-Facial-Expression-Recognition-NodeJS --recursive`
 
 #### 3.1.2 SSL Certificates or Self-Signed Certificates
