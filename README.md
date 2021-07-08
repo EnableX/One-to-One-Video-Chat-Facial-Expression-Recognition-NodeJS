@@ -12,7 +12,7 @@ This basic 1-to-1 Video Chat Application is developed using HTML, CSS, Bootstrap
 
 ## 1. Important!
 
-When developing a Client Application with EnxRtc.js, make sure to include the updated EnxRtc.js polyfills from https://developer.enablex.io/video-api/client-api/web-toolkit/ for RTCPeerConnection and getUserMedia. Otherwise your application will not work in web browsers.
+When developing a Client Application with EnxRtc.js ( present in client/js ), make sure to replace the old EnxRtc.js with updated EnxRtc.js polyfills from https://developer.enablex.io/video-api/client-api/web-toolkit/ for RTCPeerConnection and getUserMedia. Otherwise your application will not work in web browsers.
 
 
 ## 2. Trial
@@ -26,9 +26,9 @@ Sign up for a free trial https://portal.enablex.io/cpaas/trial-sign-up/ or try o
 
 #### 3.1.1 App Id and App Key
 
-- Register with EnableX [https://portal.enablex.io/cpaas/trial-sign-up/]
-- Create your Application
-- Get your App ID and App Key
+* Create a free account on EnableX [https://portal.enablex.io/cpaas/trial-sign-up/]
+* Create your Project
+* Get the App ID and App Key generated against the Project
 - Clone this repository `git clone https://github.com/EnableX/One-to-One-Video-Chat-Facial-Expression-Recognition-NodeJS --recursive`
 
 #### 3.1.2 SSL Certificates or Self-Signed Certificates
@@ -43,6 +43,8 @@ However you may use self-signed Certificate to run this application locally. The
 
 The following below can also be used to create a self-signed certificate.
 
+
+Mac/Linux
 ```javascript
   cd One-to-One-Video-Chat-Facial-Expression-Recognition-NodeJS
   cd server
@@ -51,12 +53,21 @@ The following below can also be used to create a self-signed certificate.
   sudo chmod 755 ./certs/localhost.*
 ```
 
+Windows(Use Git Bash)
+```javascript
+  cd One-to-One-Video-Chat-Facial-Expression-Recognition-NodeJS
+  cd server
+  mkdir certs
+  openssl req -x509 -newkey rsa:4096 -keyout ./certs/example.key -out ./certs/example.crt -days 10000 -nodes
+  chmod 755 ./certs/localhost.*
+```
+
 #### 3.1.3 Configure
 
 Before you can run this application, configure the service. Copy the `server/example.env` as `server/.env` and update the values. Or you can set following system environment variables instead:
 
 ```javascript
-  SERVICE_PORT - Node port on which your application will run. Default port set is 5000
+  SERVICE_PORT - Node port on which your application will run. Default port set is 3000
   ENABLEX_APP_ID - Your EnableX `App ID` - It's your username for EnableX API and can be found at Dashboard > Projects https://portal.enablex.io/dashboard/
   ENABLEX_APP_KEY - Your EnableX `App Key` - - It's your password for EnableX API and can be found at Dashboard > Projects https://portal.enablex.io/dashboard/
 ```
@@ -90,12 +101,12 @@ Server started. Listening on Port 4443
 
 #### 3.2.2 Test Video Call
 
-- Open a browser and go to `https://localhost:4443/`. The browser should load the App. Go to -> Advanced -> Proceed to localhost
+- Open a browser and go to `https://localhost:3000/`. The browser should load the App. Go to -> Advanced -> Proceed to localhost
 - Don't have a Room ID? Create here (create a new RoomID)
 - Store the Room ID for future use or share
 - Enter a username (e.g. test0)
 - Join and allow access to camera and microphone when prompted to start your first webRTC call through EnableX
-- Open another browser tab and enter `https://localhost:4443/`
+- Open another browser tab and enter `https://localhost:3000/`
 - Enter the same roomID previously created and add a different username (test1) and click join
 - Now, you should see your own video in both the tabs!
 
