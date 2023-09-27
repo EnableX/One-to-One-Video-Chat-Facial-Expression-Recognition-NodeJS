@@ -240,7 +240,7 @@ window.onload = function () {
         room = response.room;
         const ownId = response.publishId;
         setLiveStream(localStream);
-        for (let i = 0; i < response.streams.length; i++) {
+                  for (let i = 0; i < response.streams.length; i++) {
           room.subscribe(response.streams[i]);
         }
         // for face tracking
@@ -372,10 +372,10 @@ function videoMute() {
   const currentImgPath = elem.src.split('/')[elem.src.split('/').length - 1];
   if (currentImgPath === offImgName) {
     localStream.unmuteVideo((res) => {
-      const streamId = localStream.getID();
-      const player = document.getElementById(`stream${streamId}`);
-      player.srcObject = localStream.stream;
-      player.play();
+      // const streamId = localStream.getID();
+      // const player = document.getElementById(`stream${streamId}`);
+      // player.srcObject = localStream.stream;
+      // player.play();
       elem.src = onImgPath;
       elem.title = 'mute video';
     });
