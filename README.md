@@ -23,15 +23,15 @@ Disconnect
 
 #### 1.1.1 App Id and App Key
 
-* Create a free account on EnableX  [https://portal.enablex.io/cpaas/trial-sign-up/] 
+* Create a free account on EnableX  [https://www.enablex.io/free-trial/] 
 * Create your Project
 * Get the App ID and App Key generated against the Project
 
 
 #### 1.1.2 Requirement
 
-* Check your browser compatibility with EnableX [https://developer.enablex.io/video/browser-compatibility-of-enablex-video/]
-* Download latest copy of Web SDK (EnxRtc.js) [https://developer.enablex.io/wp-content/uploads/EnxRtc.js.v1.9.3.zip?ver=1.9.3] and replace client/js/EnxRtc.js 
+* Check your browser compatibility with EnableX [https://developer.enablex.io/docs/quickstart/video/browser-compatibility/index/]
+* Download latest copy of Web SDK (EnxRtc.js) [https://developer.enablex.io/downloads/EnxRtc.js.v2.3.30.zip] and replace client/js/EnxRtc.js 
 * Install all project modules. Run `npm install` 
 * Install the project package dependencies. Run `yarn install` 
 
@@ -80,16 +80,16 @@ As the EnableX test server has been configured for demonstration purpose only, i
 * Conduct a single session with a duration lesser than 10 minutes. 
 * Host a multiparty call with less than 3 participants. 
 
-Refer to the **Demo App Server** [https://www.enablex.io/developer/video/sample-code/#demo-app-server] for more information.   
+Refer to the **Demo App Server** [https://developer.enablex.io/docs/guides/video-guide/content/sample-codes/] for more information.   
 
 Once you have successfully tested your application on the test server, you can set up your application server as explained in section 1.1.4 above. 
 
 
 ## 3 Integrating Face AI 
 
-FaceAI allows you to add facial expression and facial emotion recognition AI to any website or app. The **Face AI Web SDK** [https://www.enablex.io/developer/solutions/face-ai/face-ai-web-sdk/] offers APIs to detect a face in a video, assess the person’s age, gender, mood, and thought process based on subtle facial expressions.  
+FaceAI allows you to add facial expression and facial emotion recognition AI to any website or app. The **Face AI Web SDK** [https://developer.enablex.io/docs/references/sdks/face-ai-sdk/face-ai-web-sdk/index/] offers APIs to detect a face in a video, assess the person’s age, gender, mood, and thought process based on subtle facial expressions.  
 
-Learn about **How to implement Face AI** in your application here [https://www.enablex.io/developer/solutions/face-ai/face-ai-web-sdk/].
+Learn about **How to implement Face AI** in your application here [https://developer.enablex.io/docs/references/sdks/face-ai-sdk/face-ai-web-sdk/face-ai-web-sdk-3-1/how-to-use/].
 
 
 ## 4 Learn more about Client API
@@ -118,9 +118,9 @@ In addition to the features demonstrated in this sample program, the SDK has man
 
 And many more such exciting features. 
 
-Read **Web Toolkit Documentation** [https://www.enablex.io/developer/video-api/client-api/web-toolkit/]  for more details.  
+Read **Web Toolkit Documentation** [https://developer.enablex.io/docs/references/sdks/video-sdk/web-sdk/index/]  for more details.  
 
-**Download Web Toolkit** [https://www.enablex.io/developer/video/downloads/] to get the latest version of Web SDK. 
+**Download Web Toolkit** [https://developer.enablex.io/downloads/EnxRtc.js.v2.3.30.zip] to get the latest version of Web SDK. 
 
 
 
